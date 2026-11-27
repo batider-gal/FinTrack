@@ -5,13 +5,15 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import inspect
 from .database import engine, init_db
+from .api import router
 
 @asynccontextmanager
 async def lifespan(app):
     init_db()
     yield
 
-app = FastAPI(title='FinTrack', version='0.2.0', lifespan=lifespan)
+app = FastAPI(title='FinTrack', version='0.3.0', lifespan=lifespan)
+app.include_router(router)
 frontend = Path(__file__).resolve().parent.parent / 'frontend'
 app.mount('/static', StaticFiles(directory=frontend), name='static')
 
