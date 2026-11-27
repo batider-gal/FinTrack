@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #f4f7fb; color: #14243b; }
+header { background: #12365b; color: white; padding: 20px max(24px, calc((100% - 1040px)/2)); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+header strong { font-size: 24px; }
+#status { font-size: 13px; }
+main { max-width: 1088px; margin: 50px auto; padding: 0 24px; }
+.eyebrow { color: #246398; font-size: 12px; font-weight: 700; letter-spacing: 2px; }
+h1 { font-size: 36px; margin: 12px 0; }
+.muted { color: #52657b; }
+.notice { font-size: 14px; color: #52657b; margin: 28px 0 12px; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+article, .transactions { background: white; border: 1px solid #dce5ef; border-radius: 12px; padding: 24px; }
+h2 { font-size: 15px; margin: 0; }
+article p { font-size: 30px; font-weight: 650; margin: 18px 0 0; }
+.transactions { margin-top: 24px; }
