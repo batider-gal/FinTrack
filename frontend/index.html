@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinTrack</title>
-<link rel="stylesheet" href="/static/style.css">
-<script src="/static/script.js" defer></script>
-</head>
-<body>
-<header><strong>FinTrack</strong><span id="status" role="status">Connecting to server…</span></header>
-<main>
-<p class="eyebrow">PERSONAL FINANCE MANAGEMENT</p>
-<h1>Financial overview</h1>
-<p class="muted">Your finances, in one place.</p>
-<p class="notice">Database foundation ready · Transaction entry is not available yet.</p>
-<section class="summary" aria-label="Financial summary">
-<article><h2>Total balance</h2><p>$0.00</p></article>
-<article><h2>Total income</h2><p>$0.00</p></article>
-<article><h2>Total expenses</h2><p>$0.00</p></article>
-</section>
-<section class="transactions"><h2>Recent transactions</h2><p class="muted">Transaction management will be added in a later stage.</p></section>
-</main>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FinTrack</title><link rel="stylesheet" href="/static/style.css"><script defer src="/static/script.js"></script></head><body>
+<section id="auth" class="auth"><div class="intro"><span class="brand">◈ FinTrack</span><h1>Your money.<br>Your clarity.</h1><p>Track income, understand spending, and take control of your finances.</p><small>PERSONAL FINANCE MANAGEMENT · LOCAL DEMO</small></div><div class="auth-card"><h2 id="auth-title">Welcome back</h2><p id="auth-sub">Sign in to your FinTrack account.</p><form id="auth-form"><label>Email<input id="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"></label><label>Password<input id="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required placeholder="At least 12 characters"></label><button class="primary" id="auth-submit">Sign in</button></form><p id="auth-error" role="alert" class="message"></p><button id="toggle-auth" class="link" type="button">Create an account</button><small>Use fictional information for this local demo.</small></div></section>
+<div id="app" class="shell" hidden><aside><span class="brand">◈ FinTrack</span><small>WORKSPACE</small><nav><button data-view="dashboard" class="nav active">▦ Overview</button><button data-view="transactions" class="nav">↔ Transactions</button></nav><div class="aside-bottom"><small id="account"></small><button id="logout" class="nav">Sign out</button></div></aside><main><header><div><small class="eyebrow">PERSONAL FINANCE</small><h1 id="page-title">Overview</h1><p>Manage your money in one place.</p></div><button class="primary" id="new">+ Add transaction</button></header><p id="notice" role="status" class="message"></p><section id="overview" class="stats"><article><small>Total balance</small><strong id="balance">—</strong><span>Income minus expenses</span></article><article><small>Total income</small><strong id="income" class="positive">—</strong><span>All-time income</span></article><article><small>Total expenses</small><strong id="expense" class="negative">—</strong><span>All-time expenses</span></article></section><section class="panel"><div class="panel-head"><div><h2 id="list-title">Recent transactions</h2><p id="count"></p></div><button id="refresh" class="secondary">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Description</th><th>Category</th><th>Date</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table></div><p id="empty" hidden>No transactions yet. Add one to get started.</p><div class="paging"><button id="prev" class="secondary">Previous</button><span id="page"></span><button id="next" class="secondary">Next</button></div></section><footer>FinTrack · Local demonstration · USD</footer></main></div>
+<dialog id="editor"><form id="transaction-form"><div class="panel-head"><h2 id="editor-title">Add transaction</h2><button type="button" id="close" class="secondary" aria-label="Close">×</button></div><label>Type<select id="kind"><option value="expense">Expense</option><option value="income">Income</option></select></label><label>Category<select id="category" required></select></label><label>Amount (USD)<input id="amount" inputmode="decimal" placeholder="0.00" required pattern="[0-9]+(\.[0-9]{1,2})?"></label><label>Date<input id="date" type="date" required></label><label>Description<input id="description" maxlength="255" placeholder="e.g. Lunch"></label><p id="editor-error" role="alert" class="message"></p><button class="primary" id="save">Save transaction</button></form></dialog></body></html>

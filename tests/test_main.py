@@ -11,4 +11,6 @@ def test_health():
 def test_home():
     response = client.get("/")
     assert response.status_code == 200
-    assert "Financial overview" in response.text
+    assert "Welcome back" in response.text
+    assert "transaction-form" in response.text
+    assert "/static/script.js" in response.text

@@ -6,7 +6,7 @@ A personal finance management web application in development, built with Python,
 - User registration, Argon2 password hashing, JWT bearer authentication and revocable sessions.
 - Account-specific categories, transaction CRUD and financial summaries.
 - Integer-cent monetary amounts and input validation.
-- Dashboard preview, interactive API documentation and automated tests.
+- Interactive dashboard, browser registration and login, transaction management, interactive API documentation and automated tests.
 
 ## Setup (Windows PowerShell)
 From the project root:
@@ -39,4 +39,7 @@ python -m pytest
 ```
 
 ## Development limitations
-Local demonstration only. JWTs expire after one hour and the signing key is randomly generated at process startup; restarting or reloading requires a new login. No multi-worker support, rate limiting, verified email, password reset or production HTTPS configuration yet. Do not expose this version publicly or use actual financial information. The dashboard remains a preview; browser login and transaction UI are planned next.
+Local demonstration only. JWTs expire after one hour and the signing key is randomly generated at process startup; restarting or reloading requires a new login. No multi-worker support, rate limiting, verified email, password reset or production HTTPS configuration yet. Do not expose this version publicly or use actual financial information. The browser stores its access token in memory only; refreshing the page requires login again. Monthly charts and budgets are not yet implemented.
+
+## Browser interface
+Open http://127.0.0.1:8000/ and create an account with a fictional email and password of at least 12 characters. Sign in, add an income or expense, edit or delete it, and verify the totals update. The transaction list is paginated. Sign out when finished. Refreshing the page clears the in-memory token; use Sign out to revoke the server session before leaving.
