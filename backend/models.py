@@ -50,3 +50,9 @@ class Budget(Base):
     kind: Mapped[str] = mapped_column(String(7), default='expense')
     month: Mapped[date] = mapped_column(Date)
     limit_cents: Mapped[int] = mapped_column(Integer)
+
+class AuthSession(Base):
+    __tablename__ = 'auth_sessions'
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
+    expires_at: Mapped[int] = mapped_column(Integer, index=True)

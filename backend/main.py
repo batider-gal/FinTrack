@@ -6,14 +6,16 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import inspect
 from .database import engine, init_db
 from .api import router
+from .auth import router as auth_router
 
 @asynccontextmanager
 async def lifespan(app):
     init_db()
     yield
 
-app = FastAPI(title='FinTrack', version='0.3.0', lifespan=lifespan)
+app = FastAPI(title='FinTrack', version='0.5.0', lifespan=lifespan)
 app.include_router(router)
+app.include_router(auth_router)
 frontend = Path(__file__).resolve().parent.parent / 'frontend'
 app.mount('/static', StaticFiles(directory=frontend), name='static')
 
@@ -28,5 +30,5 @@ def health():
 @app.get('/api/database/health')
 def database_health():
     tables = sorted(inspect(engine).get_table_names())
-    expected = {'users', 'categories', 'transactions', 'budgets'}
+    expected = {'users', 'categories', 'transactions', 'budgets', 'auth_sessions'}
     return {'status': 'ok' if expected.issubset(tables) else 'incomplete', 'tables': tables}

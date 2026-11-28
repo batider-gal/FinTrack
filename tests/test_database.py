@@ -24,7 +24,7 @@ def setup_category(db):
     return user.id, category.id
 
 def test_tables(db):
-    assert set(inspect(db.bind).get_table_names()) == {'users', 'categories', 'transactions', 'budgets'}
+    assert set(inspect(db.bind).get_table_names()) == {'users', 'categories', 'transactions', 'budgets', 'auth_sessions'}
 
 def test_save_transaction_and_budget(db):
     uid, cid = setup_category(db)

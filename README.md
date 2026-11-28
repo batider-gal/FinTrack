@@ -1,58 +1,42 @@
 # FinTrack
 
-A personal finance management web application, currently in development.
+A personal finance management web application in development, built with Python, FastAPI, SQLAlchemy, SQLite, HTML, CSS and JavaScript.
 
-## Current features
-- Financial dashboard preview and FastAPI health endpoint.
-- SQLite database with SQLAlchemy models for users, categories, transactions and budgets.
-- REST API for demo categories, transaction CRUD and financial summaries.
-- Automated backend, database and API tests.
-
-Transaction entry is supported through the API. Real user authentication and dashboard integration are not implemented yet. The API is for local development only; do not expose it publicly before authentication is implemented.
+## Features
+- User registration, Argon2 password hashing, JWT bearer authentication and revocable sessions.
+- Account-specific categories, transaction CRUD and financial summaries.
+- Integer-cent monetary amounts and input validation.
+- Dashboard preview, interactive API documentation and automated tests.
 
 ## Setup (Windows PowerShell)
-Run from the project root:
-
+From the project root:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload
 ```
+Open http://127.0.0.1:8000/docs for API documentation. Startup creates the new auth_sessions table without deleting existing data. The original demo account remains disabled; new accounts have six default categories and no transactions.
 
-Open http://127.0.0.1:8000/ for the dashboard or /docs for API documentation.
-The server creates `fintrack.db` on startup. Verify tables at `/api/database/health`.
-Amounts are stored as integer cents to avoid floating-point rounding errors.
+## Authentication
+In Swagger, execute POST /api/auth/register and then POST /api/auth/login with the same JSON body, for example:
+```json
+{"email":"student@example.com","password":"FinTrackTest123!"}
+```
+Use fictional credentials for local testing. Copy the access_token value (without quotes), click Authorize, paste the token without a Bearer prefix, and confirm. GET /api/auth/me returns your account. POST /api/auth/logout revokes the current token; Swagger's Authorize dialog can also clear its local token.
+
+## REST API
+- Public: GET /api/health, GET /api/database/health, POST /api/auth/register, POST /api/auth/login.
+- Protected: GET /api/auth/me, POST /api/auth/logout, GET /api/categories, GET /api/summary, GET and POST /api/transactions, GET/PATCH/DELETE /api/transactions/{transaction_id}.
+- Use GET /api/categories to find a category ID belonging to your account. Example create body (replace category_id with your expense category ID):
+```json
+{"category_id":3,"kind":"expense","amount_cents":1500,"transaction_date":"2026-11-27","description":"Sample lunch"}
+```
+- PATCH accepts a nonempty subset of create fields; amounts are positive integer cents. Unauthorized requests return 401; other accounts' transactions return 404.
 
 ## Tests
 ```powershell
-.\.venv\Scripts\python.exe -m pytest
+python -m pytest
 ```
 
-## REST API
-Visit `/docs` to try the endpoints.
-
-- `GET /api/categories` — optional `kind` filter.
-- `GET /api/transactions` — optional `kind`, `limit`, `offset`.
-- `GET /api/summary` — all-time income, expenses, balance and count in integer cents.
-
-These endpoints operate only on the reserved fictional demo account. With no demo data, list and summary endpoints return empty lists and zero totals; individual transaction operations require the demo account. To insert optional fictional data locally, run:
-
-```powershell
-python -m backend.seed_demo
-```
-
-The seed is repeat-safe and does not create a usable login. It does not modify other accounts.
-
-## Transaction management
-- `POST /api/transactions` — create a transaction (201).
-- `GET /api/transactions/{transaction_id}` — retrieve one transaction.
-- `PATCH /api/transactions/{transaction_id}` — update supplied fields.
-- `DELETE /api/transactions/{transaction_id}` — delete a transaction (204).
-
-Use `/api/categories` to find a category ID. The category must match the transaction kind. Example POST body (replace category_id with an existing expense category ID):
-
-```json
-{"category_id": 2, "kind": "expense", "amount_cents": 1500, "transaction_date": "2026-11-26", "description": "Sample lunch"}
-```
-
-Amounts must be positive integer cents. PATCH accepts any nonempty subset of the create fields, without null values. Invalid input returns 422; missing transactions return 404; missing demo account returns 409. All changes persist in SQLite. This is not an authenticated API: use fictional data on localhost only.
+## Development limitations
+Local demonstration only. JWTs expire after one hour and the signing key is randomly generated at process startup; restarting or reloading requires a new login. No multi-worker support, rate limiting, verified email, password reset or production HTTPS configuration yet. Do not expose this version publicly or use actual financial information. The dashboard remains a preview; browser login and transaction UI are planned next.
